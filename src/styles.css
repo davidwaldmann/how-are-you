@@ -1,1 +1,58 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+    background-color: #8f645652;
+}
+
+.grid-container {
+    width: 100%;
+    max-width: 400px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-auto-rows: minmax(50px, auto);
+    grid-gap: 20px;
+    justify-content: center;
+    justify-items: stretch;
+    align-items: stretch;
+    padding: 20px;
+}
+
+.grid-item {
+    padding: 5px;
+    border: 1px solid black;
+    background-color: white;
+}
+
+.grid-header {
+    grid-column: span 2;
+    font-size: 2em;
+    font-family: "Open Sans", sans-serif;
+}
+
+.grid-score-overview {
+    grid-column: span 2;
+    grid-row: span 4;
+}
+
+.grid-date-dropdown {
+    justify-self: center;
+    font-size: 25px;
+    font-family: "Open Sans", sans-serif;
+}
+
+.grid-add-score {
+    justify-self: center;
+}
+
+.score-overview {
+    display: flex;
+    gap: 1px;
+    flex-wrap: wrap;
+}
+
+.day-score {
+    height: 30px;
+    width: 30px;
+    border: 1px solid black;
+    background-color: #fca311;
+    margin: 2px;
+}
