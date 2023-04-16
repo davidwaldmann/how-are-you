@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'how-are-you';
+  add: boolean = false;
+
+  add_score(): void {
+    this.add = true;
+  }
 }

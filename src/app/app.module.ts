@@ -5,11 +5,13 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ScoreOverviewComponent } from './score-overview/score-overview.component';
 import { AppRoutingModule } from './app-routing.module';
+import { AddNewScoreComponent } from './add-new-score/add-new-score.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ScoreOverviewComponent
+    ScoreOverviewComponent,
+    AddNewScoreComponent
   ],
   imports: [
     BrowserModule,
