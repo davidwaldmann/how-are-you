@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Category } from '../category';
+import { ScoreEntry } from '../score-entry';
+import { CATEGORIES } from '../mock-categories';
 
 @Component({
   selector: 'app-add-new-score',
@@ -7,18 +8,22 @@ import { Category } from '../category';
   styleUrls: ['./add-new-score.component.css']
 })
 export class AddNewScoreComponent implements OnInit {
-  @Input() categories?: Category[];
-  @Output() backToStartEvent = new EventEmitter<boolean>();
+  @Output() backToStartEvent = new EventEmitter<ScoreEntry>();
+  scoreEntry: ScoreEntry = new ScoreEntry();
+  categories: string[] = CATEGORIES;
 
   constructor() { }
 
   ngOnInit(): void {
-    console.log("categories:");
-    console.log(this.categories);
+    // console.log("categories:");
+    // console.log(categories);
   }
 
   add_new_score(): void {
-    this.backToStartEvent.emit(false);
+    this.scoreEntry.add_score(0, 1);
+    this.scoreEntry.add_score(1, 2);
+    this.scoreEntry.add_score(2, 3);
+    this.backToStartEvent.emit(this.scoreEntry);
   }
 
 }

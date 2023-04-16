@@ -3,22 +3,22 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ScoreOverviewComponent } from './score-overview/score-overview.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AddNewScoreComponent } from './add-new-score/add-new-score.component';
 import { ScoreCategoryComponent } from './score-category/score-category.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ScoreOverviewComponent,
     AddNewScoreComponent,
     ScoreCategoryComponent
   ],
   imports: [
     BrowserModule,
     NgbModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,7 +1,7 @@
 <div class="grid-container">
     <div class="grid-item grid-categories">
-        <div *ngFor="let category of categories">
-            <app-score-category [category]="category"></app-score-category>
+        <div *ngFor="let category of categories; let i = index">
+            <app-score-category [categoryId]="i" [categoryName]="category"></app-score-category>
         </div>
     </div>
     <div></div>

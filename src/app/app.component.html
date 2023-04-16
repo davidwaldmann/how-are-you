@@ -5,7 +5,42 @@
 </div>
 <div *ngIf="!add" class="grid-container">
    <div class="grid-item grid-score-overview">
-      <app-score-overview></app-score-overview>
+      <div class="score-overview">
+         <div class="day-score"></div>
+         <div class="day-score"></div>
+         <div class="day-score"></div>
+         <div class="day-score"></div>
+         <div class="day-score"></div>
+         <div class="day-score"></div>
+         <div class="day-score"></div>
+         <div class="day-score"></div>
+         <div class="day-score"></div>
+         <div class="day-score"></div>
+         <div class="day-score"></div>
+         <div class="day-score"></div>
+         <div class="day-score"></div>
+         <div class="day-score"></div>
+         <div class="day-score"></div>
+         <div class="day-score"></div>
+         <div class="day-score"></div>
+         <div class="day-score"></div>
+         <div class="day-score"></div>
+         <div class="day-score"></div>
+         <div class="day-score"></div>
+         <div class="day-score"></div>
+         <div class="day-score"></div>
+         <div class="day-score"></div>
+         <div class="day-score"></div>
+         <div class="day-score"></div>
+         <div class="day-score"></div>
+         <div class="day-score"></div>
+         <div class="day-score"></div>
+         <div class="day-score"></div>
+         <div class="day-score"></div>
+         <div class="day-score"></div>
+         <div class="day-score"></div>
+         <div class="day-score"></div>
+      </div>
    </div>
    <div class="grid-item grid-date-dropdown">
       <div ngbDropdown class="d-inline-block">
@@ -26,5 +61,5 @@
    </div>
 </div>
 <div *ngIf="add">
-   <app-add-new-score [categories]="categories" (backToStartEvent)="receive_back_to_start($event)"></app-add-new-score>
+   <app-add-new-score (backToStartEvent)="receive_back_to_start($event)"></app-add-new-score>
 </div>

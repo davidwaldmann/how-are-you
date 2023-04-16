@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Category } from './category';
+import { ScoreEntry } from './score-entry';
 
 @Component({
   selector: 'app-root',
@@ -9,17 +9,16 @@ import { Category } from './category';
 export class AppComponent {
   title = 'how-are-you';
   add: boolean = false;
-  categories: Category[] = [
-    {id: 1, name: "Bewegung"},
-    {id: 2, name: "Schlaf"},
-    {id: 3, name: "Ernährung"},
-  ]
+  newEntryScore: string = "";
 
   add_score(): void {
     this.add = true;
   }
 
-  receive_back_to_start($event: boolean): void {
-    this.add = $event;
+  receive_back_to_start($event: ScoreEntry): void {
+    console.log("receive_back_to_start:");
+    console.log($event);
+    this.newEntryScore = String($event.get_score(0)) + String($event.get_score(0)) + String($event.get_score(0));
+    this.add = false;
   }
 }
