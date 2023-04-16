@@ -26,5 +26,5 @@
    </div>
 </div>
 <div *ngIf="add">
-   <app-add-new-score></app-add-new-score>
+   <app-add-new-score [categories]="categories" (backToStartEvent)="receive_back_to_start($event)"></app-add-new-score>
 </div>

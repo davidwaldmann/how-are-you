@@ -6,12 +6,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ScoreOverviewComponent } from './score-overview/score-overview.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AddNewScoreComponent } from './add-new-score/add-new-score.component';
+import { ScoreCategoryComponent } from './score-category/score-category.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ScoreOverviewComponent,
-    AddNewScoreComponent
+    AddNewScoreComponent,
+    ScoreCategoryComponent
   ],
   imports: [
     BrowserModule,

@@ -1,33 +1,8 @@
 <div class="grid-container">
     <div class="grid-item grid-categories">
-        <div class="new-score">
-            <p>Bewegung</p>
-            <div style="display: flex">
-                <div class="new-category-score"></div>
-                <div class="new-category-score"></div>
-                <div class="new-category-score"></div>
-                <div class="new-category-score"></div>
-            </div>
+        <div *ngFor="let category of categories">
+            <app-score-category [category]="category"></app-score-category>
         </div>
-        <div class="new-score">
-            <p>Schlaf</p>
-            <div style="display: flex">
-                <div class="new-category-score"></div>
-                <div class="new-category-score"></div>
-                <div class="new-category-score"></div>
-                <div class="new-category-score"></div>
-            </div>
-        </div>
-        <div class="new-score">
-            <p>Ernährung</p>
-            <div style="display: flex">
-                <div class="new-category-score"></div>
-                <div class="new-category-score"></div>
-                <div class="new-category-score"></div>
-                <div class="new-category-score"></div>
-            </div>
-        </div>
-
     </div>
     <div></div>
     <div class="grid-item grid-submit-score" (click)="add_new_score()">

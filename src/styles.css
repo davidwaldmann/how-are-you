@@ -37,6 +37,12 @@ body {
     grid-row: span 4;
 }
 
+.grid-submit-score {
+    justify-self: end;
+    margin-right: 20px;
+    font-size: 25px;
+}
+
 .new-score {
     display: flex;
     justify-content: space-between;
@@ -69,15 +75,21 @@ body {
 }
 
 .new-category-score {
-    height: 15px;
-    width: 15px;
+    height: 18px;
+    width: 18px;
     border: 1px solid black;
     background-color: #fca311;
     margin: 2px;
 }
 
-.grid-submit-score {
-    justify-self: end;
-    margin-right: 20px;
-    font-size: 25px;
-}
+/* https://www.w3schools.com/colors/colors_picker.asp (#fca311) */
+.d1 { background-color: #fff5e6; }
+.d2 { background-color: #feebcd; }
+.d3 { background-color: #fed89a; }
+.d4 { background-color: #fdc468; }
+.d5 { background-color: #fca311; }
+.d6 { background-color: #e38d02; }
+.d7 { background-color: #b16e02; }
+.d8 { background-color: #7e4e01; }
+.d9 { background-color: #4c2f01; }
+.d10 { background-color: #321f01; }
