@@ -26,6 +26,13 @@ export class AddNewScoreComponent implements OnInit {
   }
 
   on_tap(categoryId: number, score: number): void {
+    let idxPressed = this.idxPressed[categoryId];
+    // if already pressed, delete the score
+    if (idxPressed === score) {
+      this.idxPressed[categoryId] = -1;
+      this.scoreEntry.delete_score(categoryId);
+      return;
+    }
     this.scoreEntry.add_score(categoryId, score);
     this.idxPressed[categoryId] = score;
   }

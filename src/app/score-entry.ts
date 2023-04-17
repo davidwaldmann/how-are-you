@@ -33,6 +33,10 @@ export class ScoreEntry {
         this.categoryScores[categoryId].score = score;
     }
 
+    delete_score(categoryId: number): void {
+        this.categoryScores[categoryId].score = undefined;
+    }
+
     get_score(categoryId: number): number | undefined {
         return (categoryId < this.categoryScores.length)? this.categoryScores[categoryId].score: NaN;
     }
@@ -45,17 +49,18 @@ export class ScoreEntry {
     }
     
     calculate_total(): void {
-        let size = this.categoryScores.length;
+        let count: number = 0;
         let sum: number = 0;
-        for (let i = 0; i < size; i++) {
+        for (let i = 0; i < this.categoryScores.length; i++) {
             let score = this.get_score(i);
             if (score === undefined) {
-                console.error("*** David: Error in score-entry.ts -> calculate_total()");
-                return;
+                continue;
             }
+            count++;
+            // multiply score by 3 to get score 0 -> 9
             sum += score * 3;
         }
-        this.mean = sum / size;
+        this.mean = sum / count;
         this.total = Math.round(this.mean);
     }
 }

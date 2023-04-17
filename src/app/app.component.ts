@@ -20,7 +20,7 @@ export class AppComponent {
   receive_back_to_start($event: ScoreEntry): void {
     let total = $event.get_total();
     // Check for invalid score
-    if (total !== -1) {
+    if (total && total !== -1) {
       this.scores.push($event);
     }
     console.log("Total Score = " + total);
