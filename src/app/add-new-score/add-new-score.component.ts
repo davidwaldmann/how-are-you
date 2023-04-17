@@ -11,19 +11,23 @@ export class AddNewScoreComponent implements OnInit {
   @Output() backToStartEvent = new EventEmitter<ScoreEntry>();
   scoreEntry: ScoreEntry = new ScoreEntry();
   categories: string[] = CATEGORIES;
+  idxPressed: number[] = [];
 
   constructor() { }
 
   ngOnInit(): void {
-    // console.log("categories:");
-    // console.log(categories);
+    for (let category in this.categories) {
+      this.idxPressed.push(-1);
+    }
   }
 
-  add_new_score(): void {
-    this.scoreEntry.add_score(0, 1);
-    this.scoreEntry.add_score(1, 2);
-    this.scoreEntry.add_score(2, 3);
+  send_new_entry(): void {
     this.backToStartEvent.emit(this.scoreEntry);
+  }
+
+  on_tap(categoryId: number, score: number): void {
+    this.scoreEntry.add_score(categoryId, score);
+    this.idxPressed[categoryId] = score;
   }
 
 }

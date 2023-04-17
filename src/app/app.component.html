@@ -6,40 +6,19 @@
 <div *ngIf="!add" class="grid-container">
    <div class="grid-item grid-score-overview">
       <div class="score-overview">
-         <div class="day-score"></div>
-         <div class="day-score"></div>
-         <div class="day-score"></div>
-         <div class="day-score"></div>
-         <div class="day-score"></div>
-         <div class="day-score"></div>
-         <div class="day-score"></div>
-         <div class="day-score"></div>
-         <div class="day-score"></div>
-         <div class="day-score"></div>
-         <div class="day-score"></div>
-         <div class="day-score"></div>
-         <div class="day-score"></div>
-         <div class="day-score"></div>
-         <div class="day-score"></div>
-         <div class="day-score"></div>
-         <div class="day-score"></div>
-         <div class="day-score"></div>
-         <div class="day-score"></div>
-         <div class="day-score"></div>
-         <div class="day-score"></div>
-         <div class="day-score"></div>
-         <div class="day-score"></div>
-         <div class="day-score"></div>
-         <div class="day-score"></div>
-         <div class="day-score"></div>
-         <div class="day-score"></div>
-         <div class="day-score"></div>
-         <div class="day-score"></div>
-         <div class="day-score"></div>
-         <div class="day-score"></div>
-         <div class="day-score"></div>
-         <div class="day-score"></div>
-         <div class="day-score"></div>
+         <div class="day-score d1"></div>
+         <div class="day-score d2"></div>
+         <div class="day-score d2"></div>
+         <div class="day-score d5"></div>
+         <div class="day-score d5"></div>
+         <div class="day-score d3"></div>
+         <div class="day-score d4"></div>
+         <div class="day-score d8"></div>
+         <div class="day-score d7"></div>
+         <div class="day-score d8"></div>
+         <div *ngFor="let score of scores">
+            <div class="day-score {{colorClasses[score.get_total()]}}"></div>
+         </div>
       </div>
    </div>
    <div class="grid-item grid-date-dropdown">
