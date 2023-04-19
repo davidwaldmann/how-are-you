@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ScoreEntry } from '../score-entry';
-import { CATEGORIES } from '../mock-categories';
+import { ScoresService } from '../shared/scores.service';
 
 @Component({
   selector: 'app-add-new-score',
@@ -8,33 +8,55 @@ import { CATEGORIES } from '../mock-categories';
   styleUrls: ['./add-new-score.component.css']
 })
 export class AddNewScoreComponent implements OnInit {
-  @Output() backToStartEvent = new EventEmitter<ScoreEntry>();
   scoreEntry: ScoreEntry = new ScoreEntry();
-  categories: string[] = CATEGORIES;
-  idxPressed: number[] = [];
+  isEditing: boolean = false;
+  newCategory?: string;
 
-  constructor() { }
+  constructor(private scoresService: ScoresService) { }
 
   ngOnInit(): void {
-    for (let category in this.categories) {
-      this.idxPressed.push(-1);
-    }
   }
 
-  send_new_entry(): void {
-    this.backToStartEvent.emit(this.scoreEntry);
+  post_new_score_entry(): void {
+    if (this.scoreEntry.get_total()) {
+      this.scoresService.add_score_entry(this.scoreEntry);
+    }
+    this.scoresService.set_add_new_entry_screen(false);
   }
 
   on_tap(categoryId: number, score: number): void {
-    let idxPressed = this.idxPressed[categoryId];
     // if already pressed, delete the score
-    if (idxPressed === score) {
-      this.idxPressed[categoryId] = -1;
+    if (this.scoreEntry.get_score(categoryId) == score) {
       this.scoreEntry.delete_score(categoryId);
-      return;
+    } else {
+      this.scoreEntry.add_score(categoryId, score);
     }
-    this.scoreEntry.add_score(categoryId, score);
-    this.idxPressed[categoryId] = score;
   }
 
+  get_category_score(categoryId: number): number | undefined {
+    return this.scoreEntry.get_score(categoryId);
+  }
+
+  get_categories(): Iterable<string> {
+    return this.scoresService.get_categories().values();
+  }
+
+  edit_categories(): void {
+    this.isEditing = !this.isEditing;
+  }
+
+  delete_category(id: number): boolean {
+    return this.scoresService.delete_category_return_success(id);
+  }
+
+  submit_new_category(event: any): void {
+    console.log(event.target);
+    let newCat: string = event.target.value;
+    newCat = newCat?.trim();
+    if (newCat.length > 0) {
+      this.scoresService.add_category_return_key(newCat);
+    }
+    event.target.value = "";
+  }
+  
 }

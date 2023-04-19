@@ -4,7 +4,7 @@ body {
 }
 
 .grid-container {
-    min-width: 300px;
+    min-width: 320px;
     max-width: 500px;
     display: grid;
     grid-template-columns: 2fr 1fr;
@@ -26,10 +26,12 @@ body {
     grid-column: span 2;
     font-size: 2em;
     font-family: "Open Sans", sans-serif;
+    padding-left: 12px;
 }
 
 .grid-categories {
     grid-column: span 2;
+    padding-top: 10px;
 }
 
 .grid-score-overview {
@@ -48,6 +50,11 @@ body {
     justify-content: space-between;
     align-items: center;
     margin: 0px 30px 0px 10px;
+}
+
+.new-score-edit {
+    border: 1px solid rgb(197, 197, 197);
+    padding: 2px 5px 5px 5px;
 }
 
 .grid-date-dropdown {
@@ -86,6 +93,12 @@ body {
 .new-category-score-clicked {
     border: 3px solid black;
     border-radius: 18%;
+}
+
+input:focus {
+    outline-style: solid;
+    outline-offset: 1px;
+    outline-color: rgb(69, 173, 237);
 }
 
 /* https://www.w3schools.com/colors/colors_picker.asp (#fca311) */

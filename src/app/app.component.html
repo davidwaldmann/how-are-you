@@ -3,11 +3,11 @@
       How are you?
    </div>
 </div>
-<div *ngIf="!add" class="grid-container">
+<div *ngIf="!is_add_new_entry_screen()" class="grid-container">
    <div class="grid-item grid-score-overview">
       <div class="score-overview">
-         <div *ngFor="let score of scores">
-            <div class="day-score {{colorClasses[score.get_total()]}}" placement="bottom" ngbTooltip="{{score.get_total()}}"></div>
+         <div *ngFor="let score of get_scores()">
+            <div class="day-score {{colorClasses[score.get_total()]}}" placement="bottom"></div>
          </div>
       </div>
    </div>
@@ -29,6 +29,6 @@
       </svg>
    </div>
 </div>
-<div *ngIf="add">
-   <app-add-new-score (backToStartEvent)="receive_back_to_start($event)"></app-add-new-score>
+<div *ngIf="is_add_new_entry_screen()">
+   <app-add-new-score></app-add-new-score>
 </div>

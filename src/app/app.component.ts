@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { COLOR_CLASSES, ScoreEntry } from './score-entry';
+import { ScoresService } from './shared/scores.service';
 
 @Component({
   selector: 'app-root',
@@ -8,22 +9,20 @@ import { COLOR_CLASSES, ScoreEntry } from './score-entry';
 })
 export class AppComponent {
   title = 'how-are-you';
-  add: boolean = false;
-  scores: ScoreEntry[] = [];
   colorClasses: string[] = COLOR_CLASSES;
 
-
-  add_score(): void {
-    this.add = true;
+  public constructor(private scoresService: ScoresService) {
   }
 
-  receive_back_to_start($event: ScoreEntry): void {
-    let total = $event.get_total();
-    // Check for invalid score
-    if (total && total !== -1) {
-      this.scores.push($event);
-    }
-    console.log("Total Score = " + total);
-    this.add = false;
+  get_scores(): Iterable<ScoreEntry> {
+    return this.scoresService.get_scores().values();
+  }
+
+  is_add_new_entry_screen(): boolean {
+    return this.scoresService.is_add_new_entry_screen();
+  }
+
+  add_score(): void {
+    this.scoresService.set_add_new_entry_screen(true);
   }
 }
