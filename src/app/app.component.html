@@ -1,13 +1,18 @@
 <div class="grid-container">
    <div class="grid-item grid-header">
-      How are you?
+      Activities
    </div>
 </div>
 <div *ngIf="!is_add_new_entry_screen()" class="grid-container">
    <div class="grid-item grid-score-overview">
       <div class="score-overview">
-         <div *ngFor="let score of get_scores()">
-            <div class="day-score {{colorClasses[score.get_total()]}}" placement="bottom"></div>
+         <div class="scores">
+            <div *ngFor="let _ of [].constructor(30), let i = index">
+               <div class="day-score {{get_color_class(i)}}" placement="bottom"></div>
+            </div>
+         </div>
+         <div class="months">
+            <div class="month">Jan</div>
          </div>
       </div>
    </div>
@@ -31,4 +36,16 @@
 </div>
 <div *ngIf="is_add_new_entry_screen()">
    <app-add-new-score></app-add-new-score>
+</div>
+
+<!-- Debug-Panel: Manually adding new scores -->
+<div *ngIf="!is_add_new_entry_screen()" class="grid-container">
+   <div class="grid-item grid-score-overview" style="grid-row: 1;">
+      <h6>[Debug] Add entry </h6>
+      <div class="scores" style="grid-row: 1;">
+         <div *ngFor="let _ of [].constructor(10), let i = index">
+            <div class="day-score d{{i+1}}" (click)="debug_add_score_entry(i)"></div>
+         </div>
+      </div>
+   </div>
 </div>

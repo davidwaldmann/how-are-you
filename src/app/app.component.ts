@@ -18,11 +18,30 @@ export class AppComponent {
     return this.scoresService.get_scores().values();
   }
 
+  edit_score(scoreId: number): void {
+    
+  }
+
+  get_color_class(scoreId: number): string {
+    const scoreEntry = this.scoresService.get_scores().get(scoreId);
+    if (scoreEntry) {
+      return this.colorClasses[scoreEntry.get_total()];
+    }
+    // if no scoreEntry defined for this id, return css class for default color
+    return this.colorClasses[-1];
+  }
+
   is_add_new_entry_screen(): boolean {
     return this.scoresService.is_add_new_entry_screen();
   }
 
   add_score(): void {
     this.scoresService.set_add_new_entry_screen(true);
+  }
+
+  debug_add_score_entry(total: number) {
+    const scoreEntry: ScoreEntry = new ScoreEntry();
+    scoreEntry.debug_set_total(total);
+    this.scoresService.add_score_entry(scoreEntry);
   }
 }

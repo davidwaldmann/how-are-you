@@ -16,7 +16,7 @@ export class ScoreEntry {
     }
 
     get_total(): number {
-        if (this.total) {
+        if (this.total !== undefined) {
             return this.total;
         }
         let count: number = 0;
@@ -33,6 +33,10 @@ export class ScoreEntry {
         this.mean = sum / count;
         this.total = Math.round(this.mean);
         return this.total;
+    }
+
+    debug_set_total(total: number) {
+        this.total = total;
     }
 }
 
