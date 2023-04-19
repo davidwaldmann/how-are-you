@@ -18,13 +18,16 @@ export class AddNewScoreComponent implements OnInit {
   }
 
   post_new_score_entry(): void {
-    if (this.scoreEntry.get_total()) {
+    if (!Number.isNaN(this.scoreEntry.get_total())) {
       this.scoresService.add_score_entry(this.scoreEntry);
     }
     this.scoresService.set_add_new_entry_screen(false);
   }
 
   on_tap(categoryId: number, score: number): void {
+    // console.debug("on_tap()");
+    // console.debug("id, score: ", categoryId, score);
+
     // if already pressed, delete the score
     if (this.scoreEntry.get_score(categoryId) == score) {
       this.scoreEntry.delete_score(categoryId);
@@ -37,12 +40,14 @@ export class AddNewScoreComponent implements OnInit {
     return this.scoreEntry.get_score(categoryId);
   }
 
-  get_categories(): Iterable<string> {
-    return this.scoresService.get_categories().values();
+  get_categories(): Map<number, string> {
+    return this.scoresService.get_categories();
   }
 
   edit_categories(): void {
     this.isEditing = !this.isEditing;
+    // In Edit-Mode destroy all tapped scores from this entry
+    this.scoreEntry = new ScoreEntry();
   }
 
   delete_category(id: number): boolean {
@@ -50,7 +55,6 @@ export class AddNewScoreComponent implements OnInit {
   }
 
   submit_new_category(event: any): void {
-    console.log(event.target);
     let newCat: string = event.target.value;
     newCat = newCat?.trim();
     if (newCat.length > 0) {
