@@ -10,6 +10,7 @@ import { ScoresService } from './shared/scores.service';
 export class AppComponent {
   title = 'how-are-you';
   colorClasses: string[] = COLOR_CLASSES;
+  selectedScoreId?: number;
 
   public constructor(private scoresService: ScoresService) {
   }
@@ -18,8 +19,13 @@ export class AppComponent {
     return this.scoresService.get_scores().values();
   }
 
-  edit_score(scoreId: number): void {
-    
+  edit_score_entry(scoreId: number): void {
+    // if scoreEntry does not exist, do nothing
+    if (!this.scoresService.get_scores().has(scoreId)) {
+      return;
+    }
+    this.selectedScoreId = scoreId;
+    this.scoresService.set_add_new_entry_screen(true);
   }
 
   get_color_class(scoreId: number): string {
@@ -36,6 +42,7 @@ export class AppComponent {
   }
 
   add_score(): void {
+    this.selectedScoreId = undefined;
     this.scoresService.set_add_new_entry_screen(true);
   }
 

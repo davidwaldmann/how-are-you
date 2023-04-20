@@ -38,6 +38,10 @@ export class ScoreEntry {
     debug_set_total(total: number) {
         this.total = total;
     }
+
+    force_recalculation_of_total(): void {
+        this.total = undefined;
+    }
 }
 
 export const COLOR_CLASSES: string[] = [

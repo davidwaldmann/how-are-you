@@ -8,7 +8,7 @@
       <div class="score-overview">
          <div class="scores">
             <div *ngFor="let _ of [].constructor(30), let i = index">
-               <div class="day-score {{get_color_class(i)}}" placement="bottom"></div>
+               <div class="day-score {{get_color_class(i)}}" (click)="edit_score_entry(i)" placement="bottom"></div>
             </div>
          </div>
          <div class="months">
@@ -18,7 +18,7 @@
    </div>
    <div class="grid-item grid-date-dropdown">
       <div ngbDropdown class="d-inline-block">
-         <button type="button" class="btn btn-light btn-lg" id="dropdownBasic1" ngbDropdownToggle>
+         <button type="button" class="btn btn-light btn-lg" style="border: 0px solid transparent; background-color: transparent;" id="dropdownBasic1" ngbDropdownToggle>
             14.04.2023
          </button>
          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
@@ -35,7 +35,7 @@
    </div>
 </div>
 <div *ngIf="is_add_new_entry_screen()">
-   <app-add-new-score></app-add-new-score>
+   <app-add-new-score [scoreId]="selectedScoreId"></app-add-new-score>
 </div>
 
 <!-- Debug-Panel: Manually adding new scores -->

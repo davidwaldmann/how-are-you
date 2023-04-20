@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
 import { ScoreEntry } from '../score-entry';
 import { ScoresService } from '../shared/scores.service';
 
@@ -8,20 +8,46 @@ import { ScoresService } from '../shared/scores.service';
   styleUrls: ['./add-new-score.component.css']
 })
 export class AddNewScoreComponent implements OnInit {
+  @Input() scoreId?: number;
   scoreEntry: ScoreEntry = new ScoreEntry();
   isEditing: boolean = false;
   newCategory?: string;
+  isEditingScore: boolean = false;
 
   constructor(private scoresService: ScoresService) { }
 
   ngOnInit(): void {
+    if (this.scoreId !== undefined) {
+      let tmpScoreEntry = this.scoresService.get_scores().get(this.scoreId);
+      if (tmpScoreEntry !== undefined) {
+        this.scoreEntry = tmpScoreEntry;
+        this.isEditingScore = true;
+      } else {
+        console.error("davidwe **** To be edited scoreEntry could not be found. scoreId = ", this.scoreId);
+      }
+    }
   }
 
   post_new_score_entry(): void {
     if (!Number.isNaN(this.scoreEntry.get_total())) {
-      this.scoresService.add_score_entry(this.scoreEntry);
+      // Edit ScoreEntry
+      if (this.isEditingScore) {
+        if (this.scoreId !== undefined) {
+          this.scoresService.edit_score_entry(this.scoreId, this.scoreEntry);
+        } else {
+          console.error("davidwe **** To be edited scoreId ", this.scoreId, " is undefined");
+        }
+      }
+      // Add new ScoreEntry
+      else {
+        this.scoresService.add_score_entry(this.scoreEntry);
+      }
     }
     this.scoresService.set_add_new_entry_screen(false);
+  }
+
+  get_score_entry(scoreId: number): ScoreEntry | undefined {
+    return this.scoresService.get_scores().get(scoreId);
   }
 
   on_tap(categoryId: number, score: number): void {
@@ -29,7 +55,9 @@ export class AddNewScoreComponent implements OnInit {
     // console.debug("id, score: ", categoryId, score);
 
     // if already pressed, delete the score
+    console.debug("on_tap categoryId, score", categoryId, score);
     if (this.scoreEntry.get_score(categoryId) == score) {
+      console.debug("bla");
       this.scoreEntry.delete_score(categoryId);
     } else {
       this.scoreEntry.add_score(categoryId, score);
@@ -62,5 +90,5 @@ export class AddNewScoreComponent implements OnInit {
     }
     event.target.value = "";
   }
-  
+
 }

@@ -18,6 +18,11 @@ export class ScoresService {
     this.nextKey++;
   }
 
+  public edit_score_entry(scoreId: number, scoreEntry: ScoreEntry) {
+    this.scores.set(scoreId, scoreEntry);
+    this.scores.get(scoreId)?.force_recalculation_of_total();
+  }
+
   public add_category_return_key(categoryName: string): number {
     return this.categoryService.add_category_return_key(categoryName);
   }
