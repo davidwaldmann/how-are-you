@@ -51,13 +51,8 @@ export class AddNewScoreComponent implements OnInit {
   }
 
   on_tap(categoryId: number, score: number): void {
-    // console.debug("on_tap()");
-    // console.debug("id, score: ", categoryId, score);
-
     // if already pressed, delete the score
-    console.debug("on_tap categoryId, score", categoryId, score);
     if (this.scoreEntry.get_score(categoryId) == score) {
-      console.debug("bla");
       this.scoreEntry.delete_score(categoryId);
     } else {
       this.scoreEntry.add_score(categoryId, score);
@@ -88,6 +83,7 @@ export class AddNewScoreComponent implements OnInit {
     if (newCat.length > 0) {
       this.scoresService.add_category_return_key(newCat);
     }
+    // clear input field
     event.target.value = "";
   }
 

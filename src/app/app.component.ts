@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { COLOR_CLASSES, ScoreEntry } from './score-entry';
 import { ScoresService } from './shared/scores.service';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-root',
@@ -26,6 +27,14 @@ export class AppComponent {
     }
     this.selectedScoreId = scoreId;
     this.scoresService.set_add_new_entry_screen(true);
+  }
+
+  get_score_entry_mean(scoreId: number): number | undefined {
+    return this.scoresService.get_scores().get(scoreId)?.get_mean();
+  }
+
+  score_entry_exists(scoreId: number): boolean {
+    return this.scoresService.get_scores().has(scoreId);
   }
 
   get_color_class(scoreId: number): string {

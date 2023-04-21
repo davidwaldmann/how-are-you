@@ -8,7 +8,7 @@
       <div class="score-overview">
          <div class="scores">
             <div *ngFor="let _ of [].constructor(30), let i = index">
-               <div class="day-score {{get_color_class(i)}}" (click)="edit_score_entry(i)" placement="bottom"></div>
+               <div class="day-score {{get_color_class(i)}}" [ngbTooltip]="score_entry_exists(i)? '[' + (i+1) + '.1.23] *' + get_score_entry_mean(i) + '*': ''" placement="top"></div>
             </div>
          </div>
          <div class="months">

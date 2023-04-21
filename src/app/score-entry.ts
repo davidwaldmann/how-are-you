@@ -15,6 +15,13 @@ export class ScoreEntry {
         return this.categoryScores.get(categoryId);
     }
 
+    get_mean(): number {
+        if (this.mean === undefined) {
+            this.get_total();
+        }
+        return this.mean !== undefined? this.mean: -1;
+    }
+
     get_total(): number {
         if (this.total !== undefined) {
             return this.total;
