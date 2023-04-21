@@ -1,5 +1,36 @@
 <div class="grid-container">
     <div class="grid-item grid-categories">
+        <div class="new-score">
+            <div></div>
+            <div [hidden]="isEditing" style="display: flex">
+                <div class="new-category-score sc" style="border-radius: 10% 0 0 10%;">
+                    <svg viewBox="0 0 448 512" width="9" title="plus">
+                        <path d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
+                    </svg>
+                    <svg viewBox="0 0 448 512" width="9" title="plus">
+                        <path d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
+                    </svg>
+                </div>
+                <div class="new-category-score sc">
+                    <svg viewBox="0 0 448 512" width="9" title="plus">
+                        <path d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
+                    </svg>
+                </div>
+                <div class="new-category-score sc">
+                    <svg viewBox="0 0 448 512" width="9" title="minus">
+                        <path style="" d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
+                    </svg>
+                </div>
+                <div class="new-category-score sc" style="border-radius: 0 10% 10% 0;">
+                    <svg viewBox="0 0 448 512" width="9" title="minus">
+                        <path style="" d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
+                    </svg>
+                    <svg viewBox="0 0 448 512" width="9" title="minus">
+                        <path style="" d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
+                    </svg>
+                </div>
+            </div>
+        </div>
         <div *ngFor="let category of get_categories() | keyvalue">
             <div class="new-score">
                 <div style="display:flex; gap: 8px;">
@@ -11,18 +42,19 @@
                         </svg>
                     </button>
                     <div>
-                        <p>{{category.value}}</p>
+                        {{category.value}}
                     </div>
                 </div>
                 <div [hidden]="isEditing" style="display: flex">
-                    <div class="new-category-score d2" (click)="on_tap(category.key, 0)"
-                        [ngClass]="get_category_score(category.key) == 0? 'new-category-score-clicked': ''"></div>
-                    <div class="new-category-score d5" (click)="on_tap(category.key, 1)"
-                        [ngClass]="get_category_score(category.key) == 1? 'new-category-score-clicked': ''"></div>
-                    <div class="new-category-score d7" (click)="on_tap(category.key, 2)"
-                        [ngClass]="get_category_score(category.key) == 2? 'new-category-score-clicked': ''"></div>
-                    <div class="new-category-score d9 score-dark" (click)="on_tap(category.key, 3)"
-                        [ngClass]="get_category_score(category.key) == 3? 'new-category-score-clicked': ''"></div>
+                    <div class="new-category-score" (click)="on_tap(category.key, 0)"
+                        [ngClass]="get_category_score(category.key) == 0? 'new-category-score-clicked d2': ''">
+                    </div>
+                    <div class="new-category-score" (click)="on_tap(category.key, 1)"
+                        [ngClass]="get_category_score(category.key) == 1? 'new-category-score-clicked d4': ''"></div>
+                    <div class="new-category-score" (click)="on_tap(category.key, 2)"
+                        [ngClass]="get_category_score(category.key) == 2? 'new-category-score-clicked d7': ''"></div>
+                    <div class="new-category-score score-dark" (click)="on_tap(category.key, 3)"
+                        [ngClass]="get_category_score(category.key) == 3? 'new-category-score-clicked d9': ''"></div>
                 </div>
             </div>
         </div>
