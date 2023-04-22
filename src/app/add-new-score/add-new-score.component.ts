@@ -1,6 +1,7 @@
-import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ScoreEntry } from '../score-entry';
 import { ScoresService } from '../shared/scores.service';
+import { ActivatedRoute } from '@angular/router'
 
 @Component({
   selector: 'app-add-new-score',
@@ -8,16 +9,21 @@ import { ScoresService } from '../shared/scores.service';
   styleUrls: ['./add-new-score.component.css']
 })
 export class AddNewScoreComponent implements OnInit {
-  @Input() scoreId?: number;
   scoreEntry: ScoreEntry = new ScoreEntry();
   isEditing: boolean = false;
   newCategory?: string;
+  scoreId?: number;
   isEditingScore: boolean = false;
 
-  constructor(private scoresService: ScoresService) { }
+  constructor(private scoresService: ScoresService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    if (this.scoreId !== undefined) {
+    const params = this.route.snapshot.params;
+    this.scoreId = params['score-id'];
+
+    console.debug("AddNewScoreComponent score-id = ", this.scoreId);
+
+    if (this.scoreId !== undefined && !Number.isNaN(Number(this.scoreId))) {
       let tmpScoreEntry = this.scoresService.get_scores().get(this.scoreId);
       if (tmpScoreEntry !== undefined) {
         this.scoreEntry = tmpScoreEntry;
@@ -25,25 +31,22 @@ export class AddNewScoreComponent implements OnInit {
       } else {
         console.error("davidwe **** To be edited scoreEntry could not be found. scoreId = ", this.scoreId);
       }
+    } else {
+      this.scoreId = undefined;
     }
   }
 
   post_new_score_entry(): void {
-    if (!Number.isNaN(this.scoreEntry.get_total())) {
-      // Edit ScoreEntry
-      if (this.isEditingScore) {
-        if (this.scoreId !== undefined) {
-          this.scoresService.edit_score_entry(this.scoreId, this.scoreEntry);
-        } else {
-          console.error("davidwe **** To be edited scoreId ", this.scoreId, " is undefined");
-        }
-      }
-      // Add new ScoreEntry
-      else {
-        this.scoresService.add_score_entry(this.scoreEntry);
+    // Add / edit scoreEntry in(to) ScoresService
+    if (this.scoreId === undefined) {
+      this.scoreId = this.scoresService.add_score_entry_return_key(this.scoreEntry);
+    } else {
+      if (this.scoreId !== undefined) {
+        this.scoresService.edit_score_entry(this.scoreId, this.scoreEntry);
+      } else {
+        console.error("AddNewScoreComponent on_tap() -> You cannot edit score entry with scoreId = undefined");
       }
     }
-    this.scoresService.set_add_new_entry_screen(false);
   }
 
   get_score_entry(scoreId: number): ScoreEntry | undefined {
@@ -57,6 +60,7 @@ export class AddNewScoreComponent implements OnInit {
     } else {
       this.scoreEntry.add_score(categoryId, score);
     }
+    this.post_new_score_entry();
   }
 
   get_category_score(categoryId: number): number | undefined {

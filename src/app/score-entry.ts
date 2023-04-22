@@ -15,6 +15,10 @@ export class ScoreEntry {
         return this.categoryScores.get(categoryId);
     }
 
+    is_empty(): boolean {
+        return this.categoryScores.size === 0;
+    }
+
     get_mean(): number {
         if (this.mean === undefined) {
             this.get_total();

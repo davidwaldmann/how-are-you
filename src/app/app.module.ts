@@ -6,11 +6,13 @@ import { NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 import { AddNewScoreComponent } from './add-new-score/add-new-score.component';
 import { FormsModule } from '@angular/forms';
+import { ScoreOverviewComponent } from './score-overview/score-overview.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AddNewScoreComponent
+    AddNewScoreComponent,
+    ScoreOverviewComponent
   ],
   imports: [
     BrowserModule,

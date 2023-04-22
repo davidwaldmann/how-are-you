@@ -8,14 +8,14 @@ import { CategoryService } from './category.service';
 export class ScoresService {
   private scores = new Map<number, ScoreEntry>();
   private nextKey = 0;
-  private isAddNewEntryScreen = false;
 
   public constructor(private categoryService: CategoryService) {
   }
 
-  public add_score_entry(scoreEntry: ScoreEntry) {
+  public add_score_entry_return_key(scoreEntry: ScoreEntry): number {
     this.scores.set(this.nextKey, scoreEntry);
     this.nextKey++;
+    return this.nextKey - 1;
   }
 
   public edit_score_entry(scoreId: number, scoreEntry: ScoreEntry) {
@@ -41,13 +41,5 @@ export class ScoresService {
 
   public get_scores(): Map<number, ScoreEntry> {
     return this.scores;
-  }
-
-  public set_add_new_entry_screen(isTrue: boolean) {
-    this.isAddNewEntryScreen = isTrue;
-  }
-
-  public is_add_new_entry_screen(): boolean {
-    return this.isAddNewEntryScreen;
   }
 }
