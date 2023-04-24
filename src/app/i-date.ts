@@ -19,10 +19,7 @@ export class DateKey {
         return "" + this.year + this.month + this.day;
     }
 
-    equals(other: any): boolean {
-        if (other.year === undefined || other.month === undefined || other.day === undefined) {
-            return false;
-        }
-        return this.hashCode() === other.hashCode();
+    equals(other: DateKey): boolean {
+        return this.day === other.day && this.month === other.month && this.year === other.year;
     } 
 }

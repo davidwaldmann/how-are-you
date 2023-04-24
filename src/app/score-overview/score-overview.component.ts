@@ -9,63 +9,61 @@ import { COLOR_CLASSES, ScoreEntry } from '../score-entry';
 })
 export class ScoreOverviewComponent implements OnInit {
   colorClasses: string[] = COLOR_CLASSES;
-  selectedScoreId?: string;
+  selectedScoreId?: Date;
 
   constructor(private scoresService: ScoresService) { }
 
   ngOnInit(): void {
   }
 
-  get_scores(): Iterable<ScoreEntry> {
-    return this.scoresService.get_scores().values();
+  get_scores(year: number, month: number): { [day: number]: ScoreEntry; } {
+    return this.scoresService.get_score_month(year, month);
   }
 
-  get_score_date(day: number): Date {
-    return new Date(2023, 3, day);
+  get_score_date(year: number, month: number, day: number): Date {
+    return new Date(year, month, day);
+  }
+
+  get_score_key(year: number, month: number, day: number): string {
+    // console.debug("2023-04-" + (day < 10)? ("0" + day): ("" + day));
+    let dayString: string;
+    if (day < 10) { dayString = "0" + day; }
+    else {  dayString = "" + day; }
+    let monthString: string;
+    if (month < 9) { monthString = "0" + (month + 1); }
+    else {  monthString = "" + (month + 1); }
+    return "" + year + "-" + monthString + "-" + dayString;
   }
 
   get_today_score_key(): string {
-    return this.get_score_key(new Date().getDate());
+    let today = new Date();
+    return this.get_score_key(today.getFullYear(), today.getMonth(), today.getDate());
   }
 
-  get_score_key(day: number): string {
-    // console.debug("2023-04-" + (day < 10)? ("0" + day): ("" + day));
-    let dayString: string;
-    if (day < 10) {
-      dayString = "0" + day;
-    } else {
-      dayString = "" + day;
-    }
-    return "2023-04-" + dayString;
-  }
-
-  edit_score_entry(day: number): void {
-    let scoreId = this.get_score_key(day); 
+  edit_score_entry(year: number, month: number, day: number): void {
     // if scoreEntry does not exist, do nothing
-    if (!this.scoresService.get_scores().has(scoreId)) {
+    if (!this.scoresService.has_entry(year, month, day)) {
       return;
     }
-    this.selectedScoreId = scoreId;
+    this.selectedScoreId = new Date(year, month, day);
 
     // ************ TODO *********************
     // this.scoresService.set_add_new_entry_screen(true);
   }
 
-  get_score_entry_mean(day: number): string {
-    let scoreId = this.get_score_key(day); 
-    let scoreEntry = this.scoresService.get_scores().get(scoreId);
+  get_score_entry_mean(year: number, month: number, day: number): string {
+    let scoreEntry = this.scoresService.get_score_entry(year, month, day);
     let scoreEntryMean = (scoreEntry !== undefined)? scoreEntry.get_mean().toString(): "";
     return (scoreEntryMean.length !== 0)? " [" + scoreEntryMean + "]": "";
   }
 
-  score_entry_exists(day: number): boolean {
-    let scoreId = this.get_score_key(day); 
-    return this.scoresService.get_scores().has(scoreId);
+  score_entry_exists(year: number, month: number, day: number): boolean {
+    let scoreId = this.get_score_key(year, month, day); 
+    return this.scoresService.has_entry(year, month, day);
   }
 
-  get_color_class(day: number): string {
-    let scoreId = this.get_score_key(day); 
-    const scoreEntry = this.scoresService.get_scores().get(scoreId);
+  get_color_class(year: number, month: number, day: number): string {
+    const scoreEntry = this.scoresService.get_score_entry(year, month, day);
     if (scoreEntry) {
       return this.colorClasses[scoreEntry.get_total()];
     }
@@ -73,12 +71,16 @@ export class ScoreOverviewComponent implements OnInit {
     return '';
   }
 
-  debug_add_score_entry(total: number) {
-    let nextDay = this.scoresService.get_next_day();
-    let d = new Date(2023, 3, nextDay);
+  debug_add_score_entry(year: number, month: number, total: number) {
+    let nextDay = this.scoresService.get_next_empty_day(year, month);
+    let d = new Date(year, month, nextDay);
     const scoreEntry: ScoreEntry = new ScoreEntry(d);
     scoreEntry.debug_set_total(total);
-    this.scoresService.add_score_entry_return_key(scoreEntry);
+    this.scoresService.add_score_entry_return_not_already_exists(scoreEntry);
+  }
+
+  get_score_entry(year: number, month: number, day: number): ScoreEntry | undefined {
+    return this.scoresService.get_score_entry(year, month, day);
   }
 
 }

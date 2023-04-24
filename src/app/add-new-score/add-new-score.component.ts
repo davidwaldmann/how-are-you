@@ -12,7 +12,7 @@ export class AddNewScoreComponent implements OnInit {
   scoreEntry: ScoreEntry = new ScoreEntry(new Date());
   isEditing: boolean = false;
   newCategory?: string;
-  scoreId?: string;
+  scoreId?: Date;
   isEditingScore: boolean = false;
 
   constructor(private scoresService: ScoresService, private route: ActivatedRoute) { }
@@ -24,7 +24,10 @@ export class AddNewScoreComponent implements OnInit {
     console.debug("AddNewScoreComponent score-id = ", scoreIdParam);
     let scoreIdIsValidKey = /\d/.test(scoreIdParam.charAt(scoreIdParam.length - 1));
 
-    let tmpScoreEntry = this.scoresService.get_scores().get(scoreIdParam);
+    let date = this.get_date_from_date_string(scoreIdParam);
+    let tmpScoreEntry = date?
+          this.scoresService.get_score_entry(date.getFullYear(), date.getMonth(), date.getDate()) :
+          undefined;
 
     console.debug("tmpScoreEntry = ", tmpScoreEntry);
 
@@ -35,8 +38,8 @@ export class AddNewScoreComponent implements OnInit {
       this.isEditingScore = true;
     }
     else {
-      if (scoreIdIsValidKey) {
-        let d = this.get_date_from_date_string(scoreIdParam);
+      let d = this.get_date_from_date_string(scoreIdParam);
+      if (scoreIdIsValidKey && d !== undefined) {
         console.debug(d);
         this.scoreEntry = new ScoreEntry(d);
       } else {
@@ -45,7 +48,8 @@ export class AddNewScoreComponent implements OnInit {
     }
   }
 
-  get_date_from_date_string(dateString: string): Date {
+  get_date_from_date_string(dateString: string): Date | undefined {
+    if(dateString.length < 10) { return undefined; }
     let year = dateString.substring(0, 4);
     let month = dateString.substring(5, 7);
     let day = dateString.substring(8, 10);
@@ -56,16 +60,24 @@ export class AddNewScoreComponent implements OnInit {
   post_new_score_entry(): void {
     // Add / edit scoreEntry in(to) ScoresService
     if (this.scoreId === undefined) {
-      this.scoreId = this.scoresService.add_score_entry_return_key(this.scoreEntry);
+      this.scoresService.add_score_entry_return_not_already_exists(this.scoreEntry);
+      this.scoreId = this.scoreEntry.get_date();
+      if (this.scoreId === undefined) {
+        console.error("something wrong brother");
+      }
     }
     else {
-      this.scoresService.edit_score_entry(this.scoreId, this.scoreEntry);
+      if (!this.scoresService.edit_score_entry_return_success(this.scoreEntry)) {
+        console.error("Could not edit score entry score-id = ", this.scoreId);
+      }
     }
     console.debug(this.scoresService.get_scores());
   }
 
   get_score_entry(scoreId: string): ScoreEntry | undefined {
-    return this.scoresService.get_scores().get(scoreId);
+    let date = this.get_date_from_date_string(scoreId);
+    if (date === undefined) { return undefined; }
+    return this.scoresService.get_score_entry(date?.getFullYear(), date?.getMonth(), date?.getDate());
   }
 
   on_tap(categoryId: number, score: number): void {

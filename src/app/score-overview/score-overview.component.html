@@ -3,9 +3,9 @@
         <div class="score-overview">
             <div class="scores">
                 <div *ngFor="let _ of [].constructor(30), let i = index">
-                    <div class="day-score {{get_color_class(i+1)}}"
-                        [routerLink]="['/entries', get_score_key(i+1)]"
-                        ngbTooltip="{{get_score_date(i + 1) | date:'dd.MMM'}}{{get_score_entry_mean(i + 1)}}"
+                    <div class="day-score {{get_color_class(2023, 3, i+1)}}"
+                        [routerLink]="['/entries', get_score_key(2023, 3, i+1)]"
+                        ngbTooltip="{{get_score_date(2023, 3, i + 1) | date:'dd.MMM'}}{{get_score_entry_mean(2023, 3, i + 1)}}"
                         placement="top">
                     </div>
                 </div>
@@ -42,7 +42,7 @@
        <h6>[Debug] Add entry </h6>
        <div class="scores" style="grid-row: 1;">
           <div *ngFor="let _ of [].constructor(10), let i = index">
-             <div class="day-score d{{i+1}}" (click)="debug_add_score_entry(i)"></div>
+             <div class="day-score d{{i+1}}" (click)="debug_add_score_entry(2023, 3, i)"></div>
           </div>
        </div>
     </div>
