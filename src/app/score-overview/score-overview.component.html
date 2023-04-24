@@ -3,13 +3,15 @@
         <div class="score-overview">
             <div class="scores">
                 <div *ngFor="let _ of [].constructor(30), let i = index">
-                    <div class="day-score {{get_color_class(i)}}"
-                        [ngbTooltip]="score_entry_exists(i)? '[' + (i+1) + '.1.23] *' + get_score_entry_mean(i) + '*': ''"
-                        placement="top"></div>
+                    <div class="day-score {{get_color_class(i+1)}}"
+                        [routerLink]="['/entries', get_score_key(i+1)]"
+                        ngbTooltip="{{get_score_date(i + 1) | date:'dd.MMM'}}{{get_score_entry_mean(i + 1)}}"
+                        placement="top">
+                    </div>
                 </div>
             </div>
             <div class="months">
-                <div class="month">Jan</div>
+                <div class="month">Apr</div>
             </div>
         </div>
     </div>
@@ -18,7 +20,7 @@
             <button type="button" class="btn btn-light btn-lg"
                 style="border: 0px solid transparent; background-color: transparent;" id="dropdownBasic1"
                 ngbDropdownToggle>
-                14.04.2023
+                Today
             </button>
             <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
                 <button ngbDropdownItem>Diese Woche</button>
@@ -26,7 +28,7 @@
             </div>
         </div>
     </div>
-    <a routerLink="/entries/new" class="grid-item grid-add-score">
+    <a [routerLink]="['/entries', get_today_score_key()]" class="grid-item grid-add-score">
         <svg viewBox="0 0 512 512" width="50" title="plus-circle">
             <path
                 d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92h-92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z" />

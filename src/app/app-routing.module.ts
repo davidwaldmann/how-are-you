@@ -6,8 +6,7 @@ import { ScoreOverviewComponent } from './score-overview/score-overview.componen
 const routes: Routes = [
   { path: '', redirectTo: "entries", pathMatch: "full" },
   { path: 'entries', component: ScoreOverviewComponent },
-  { path: 'entries/:score-id', component: AddNewScoreComponent },
-  { path: 'entries/add', component: AddNewScoreComponent }
+  { path: 'entries/:score-id', component: AddNewScoreComponent }
 ]
 
 @NgModule({

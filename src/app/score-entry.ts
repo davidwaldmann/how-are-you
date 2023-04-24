@@ -1,7 +1,14 @@
+import { NgModel } from "@angular/forms";
+
 export class ScoreEntry {
     private categoryScores = new Map<number, number>();
+    private date: Date;
     private mean?: number;
     private total?: number;
+
+    public constructor(date: Date) {
+        this.date = date;
+    }
 
     add_score(categoryId: number, score: number): void {
         this.categoryScores.set(categoryId, score);
@@ -9,6 +16,14 @@ export class ScoreEntry {
 
     delete_score(categoryId: number): void {
         this.categoryScores.delete(categoryId);
+    }
+
+    reset_scores(): void {
+        this.categoryScores = new Map<number, number>();
+    }
+
+    get_date(): Date {
+        return this.date;
     }
 
     get_score(categoryId: number): number | undefined {
@@ -43,6 +58,7 @@ export class ScoreEntry {
         }
         this.mean = sum / count;
         this.total = Math.round(this.mean);
+        // console.debug("mean, total = ", this.mean, this.total);
         return this.total;
     }
 
