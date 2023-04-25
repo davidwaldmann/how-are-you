@@ -16,52 +16,51 @@ export class ScoreOverviewComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  get_scores(year: number, month: number): { [day: number]: ScoreEntry; } {
-    return this.scoresService.get_score_month(year, month);
-  }
-
   get_score_date(year: number, month: number, day: number): Date {
     return new Date(year, month, day);
   }
 
-  get_score_key(year: number, month: number, day: number): string {
-    // console.debug("2023-04-" + (day < 10)? ("0" + day): ("" + day));
-    let dayString: string;
-    if (day < 10) { dayString = "0" + day; }
-    else {  dayString = "" + day; }
-    let monthString: string;
-    if (month < 9) { monthString = "0" + (month + 1); }
-    else {  monthString = "" + (month + 1); }
+  get_month_name(monthIdx: number) {
+    return ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec"][monthIdx];
+  }
+
+  get_date_url_param(year: number, month: number, day: number): string {
+    let dayString = "" + day;
+    if (day < 10) {
+      dayString = "0" + dayString;
+    }
+    let monthString = "" + (month + 1);
+    if (month < 9) {
+      monthString = "0" + monthString;
+    }
     return "" + year + "-" + monthString + "-" + dayString;
   }
 
-  get_today_score_key(): string {
+  get_today_url_param(): string {
     let today = new Date();
-    return this.get_score_key(today.getFullYear(), today.getMonth(), today.getDate());
+    return this.get_date_url_param(today.getFullYear(), today.getMonth(), today.getDate());
   }
 
-  edit_score_entry(year: number, month: number, day: number): void {
-    // if scoreEntry does not exist, do nothing
-    if (!this.scoresService.has_entry(year, month, day)) {
-      return;
-    }
-    this.selectedScoreId = new Date(year, month, day);
-
-    // ************ TODO *********************
-    // this.scoresService.set_add_new_entry_screen(true);
+  /** @returns indices of the last 3 months incl the current */
+  get_months_iterable(): Iterable<number> {
+    let monthIdx = new Date().getMonth();
+    return [(((monthIdx - 2) % 11) + 11) % 11, (((monthIdx - 1) % 11) + 11) % 11, monthIdx];
   }
 
-  get_score_entry_mean(year: number, month: number, day: number): string {
+  /** @returns " [1.5]" string with mean-value for tooltip */
+  get_score_entry_mean_formatted_string(year: number, month: number, day: number): string {
     let scoreEntry = this.scoresService.get_score_entry(year, month, day);
-    let scoreEntryMean = (scoreEntry !== undefined)? scoreEntry.get_mean().toString(): "";
-    return (scoreEntryMean.length !== 0)? " [" + scoreEntryMean + "]": "";
+    let scoreEntryMean = (scoreEntry !== undefined) ?
+      scoreEntry.get_mean().toString() :
+      "";
+    return scoreEntryMean.length === 0? "": " [" + scoreEntryMean + "]";
   }
 
   score_entry_exists(year: number, month: number, day: number): boolean {
-    let scoreId = this.get_score_key(year, month, day); 
     return this.scoresService.has_entry(year, month, day);
   }
 
+  /** @returns css-class with background-color for the score */
   get_color_class(year: number, month: number, day: number): string {
     const scoreEntry = this.scoresService.get_score_entry(year, month, day);
     if (scoreEntry) {
@@ -78,9 +77,4 @@ export class ScoreOverviewComponent implements OnInit {
     scoreEntry.debug_set_total(total);
     this.scoresService.add_score_entry_return_not_already_exists(scoreEntry);
   }
-
-  get_score_entry(year: number, month: number, day: number): ScoreEntry | undefined {
-    return this.scoresService.get_score_entry(year, month, day);
-  }
-
 }

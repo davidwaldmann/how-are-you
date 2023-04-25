@@ -29,8 +29,6 @@ export class AddNewScoreComponent implements OnInit {
           this.scoresService.get_score_entry(date.getFullYear(), date.getMonth(), date.getDate()) :
           undefined;
 
-    console.debug("tmpScoreEntry = ", tmpScoreEntry);
-
     // If scoreEntry already exists, set scoreId and flag
     if (tmpScoreEntry !== undefined) {
       this.scoreEntry = tmpScoreEntry;
@@ -40,7 +38,7 @@ export class AddNewScoreComponent implements OnInit {
     else {
       let d = this.get_date_from_date_string(scoreIdParam);
       if (scoreIdIsValidKey && d !== undefined) {
-        console.debug(d);
+        // console.debug(d);
         this.scoreEntry = new ScoreEntry(d);
       } else {
         this.scoreEntry = new ScoreEntry(new Date());
@@ -53,7 +51,7 @@ export class AddNewScoreComponent implements OnInit {
     let year = dateString.substring(0, 4);
     let month = dateString.substring(5, 7);
     let day = dateString.substring(8, 10);
-    console.debug("get_date_from_date_string() year, month, day = ", year, month, day);
+    // console.debug("get_date_from_date_string() year, month, day = ", year, month, day);
     return new Date(Number(year), Number(month) - 1, Number(day));
   }
 
@@ -71,7 +69,11 @@ export class AddNewScoreComponent implements OnInit {
         console.error("Could not edit score entry score-id = ", this.scoreId);
       }
     }
-    console.debug(this.scoresService.get_scores());
+    // console.debug(this.scoresService.get_scores());
+  }
+
+  get_edit_date(): Date {
+    return this.scoreEntry.get_date();
   }
 
   get_score_entry(scoreId: string): ScoreEntry | undefined {

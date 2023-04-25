@@ -27,27 +27,20 @@ export class ScoresService {
 
   public add_score_entry_return_not_already_exists(scoreEntry: ScoreEntry): boolean {
     let date = scoreEntry.get_date();
-    console.log("add_score_entry() date = ", date);
     if (this.scores[date.getFullYear()] === undefined) {
       // Initialize year and month before assigning entry;
       this.scores[date.getFullYear()] = {};
       this.scores[date.getFullYear()][date.getMonth()] = {};
       this.scores[date.getFullYear()][date.getMonth()][date.getDate()] = scoreEntry;
-      console.debug("Added score. scores = ");
-      console.debug(this.scores);
       return true;
     }
     else if (this.scores[date.getFullYear()][date.getMonth()] === undefined) {
       this.scores[date.getFullYear()][date.getMonth()] = {};
       this.scores[date.getFullYear()][date.getMonth()][date.getDate()] = scoreEntry;
-      console.debug("Added score. scores = ");
-      console.debug(this.scores);
       return true;
     }
     else if (this.scores[date.getFullYear()][date.getMonth()][date.getDate()] === undefined) {
       this.scores[date.getFullYear()][date.getMonth()][date.getDate()] = scoreEntry;
-      console.debug("Added score. scores = ");
-      console.debug(this.scores);
       return true;
     }
     console.error("ScoresService add_score_entry(): Can't add entry, because entry already exists with date = ", scoreEntry.get_date());
@@ -64,26 +57,20 @@ export class ScoresService {
 
   public has_entry(year: number, month: number, day: number): boolean {
     return this.scores[year] ?
-      this.scores[year][month] ?
-        this.scores[year][month][day] ? true : false :
-        false :
+      (this.scores[year][month] ?
+        (this.scores[year][month][day] ? true : false) :
+        false) :
       false;
   }
-  
-  public edit_score_entrie(scoreEntry: ScoreEntry): void {
-    let date = scoreEntry.get_date();
-    this.scores[date.getFullYear()][date.getMonth()][date.getDate()] = scoreEntry;
-    this.scores[date.getFullYear()][date.getMonth()][date.getDate()].force_recalculation_of_total();
-    console.debug("Edited scoreEntry. scores = ");
-    console.debug(this.scores);
-  }
 
+  /** @returns false if scoreEntry does not exist, true if succesfully edited */
   public edit_score_entry_return_success(scoreEntry: ScoreEntry): boolean {
     let date = scoreEntry.get_date();
     if (!this.has_entry(date.getFullYear(), date.getMonth(), date.getDate())) {
       return false;
     } 
-    this.edit_score_entrie(scoreEntry);
+    this.scores[date.getFullYear()][date.getMonth()][date.getDate()] = scoreEntry;
+    this.scores[date.getFullYear()][date.getMonth()][date.getDate()].force_recalculation_of_total();
     return true;
   }
 
